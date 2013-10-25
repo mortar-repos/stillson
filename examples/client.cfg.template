@@ -1,0 +1,25 @@
+[core]
+smtp_ssl: True
+smtp_host: email-smtp.us-east-1.amazonaws.com
+smtp_port: 465
+smtp_timeout: 30
+smtp_login: ${context.get('smtp_login', 'UNDEFINED')}
+smtp_password: ${context.get('smtp_password', 'UNDEFINED')}
+error-email: ${context.get('email_error', 'UNDEFINED')}
+email-sender: ${context.get('email_sender', 'UNDEFINED')}
+ 
+[mortar]
+email: ${context.get('email_mortar', 'UNDEFINED')}
+api_key: ${context.get('api_key', 'UNDEFINED')}
+ 
+[s3]
+aws_access_key_id: ${context.get('aws_s3_access_key', 'UNDEFINED')}
+aws_secret_access_key: ${context.get('aws_s3_access_key', 'UNDEFINED')}
+ 
+[dynamodb]
+aws_access_key_id: ${context.get('aws_dynamo_access_key', 'UNDEFINED')}
+aws_secret_access_key: ${context.get('aws_secret_access_key', 'UNDEFINED')}
+ 
+[recsys]
+email: ${context.get('recsys_email', 'UNDEFINED')}
+password: ${context.get('recsys_password', 'UNDEFINED')}
