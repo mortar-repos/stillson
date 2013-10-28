@@ -1,0 +1,4 @@
+# Add a list of your output files that you do not want to check back into source control as they will have credentials
+client.cfg
+*.egg-info
+*.pyc
