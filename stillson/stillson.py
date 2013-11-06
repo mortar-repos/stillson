@@ -19,7 +19,6 @@ import os
 import sys
 from optparse import OptionParser
 from mako.template import Template
-from mako import exceptions
 
 class StillsonException(Exception):
     pass
@@ -58,7 +57,6 @@ def main():
         output_file = sys.stdout
 
     render(template_path,output_file)
-
     if options.output:
         output_file.close()
 
