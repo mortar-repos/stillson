@@ -17,7 +17,6 @@
 import unittest
 import os
 import tempfile
-import mock
 from stillson import stillson
 
 class TestStillson(unittest.TestCase):
