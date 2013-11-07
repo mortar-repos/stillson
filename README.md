@@ -27,6 +27,7 @@ Stillson exists for the small plumbing projects where you just want to work with
     webserver=dev.widget-company.com
     database=dbwebscale01.db.dev.widget-company.com
     ```
+ 
 1. use variables to replace all secure values and things you want to change on rendering
 
     **example: starting config file widgets.conf.template**
@@ -41,7 +42,7 @@ Stillson exists for the small plumbing projects where you just want to work with
     webserver=${environment}.widget-company.com
     database=${dbserver}.db.${environment}.${domain}
     ```  
- 1. setup your source control to ignore the original config file and check in your template file 
+1. setup your source control to ignore the original config file and check in your template file 
  
     **git example: add .gitignore for widgets.conf and add widgets.conf.template**
     
@@ -73,8 +74,8 @@ Complete the following steps on your target machine to render a config file.
     pip install stillson
     ```
     
- 1. check out your template file from source control
- 1. create and set your environment variables for each of the variables in your template
+1. check out your template file from source control
+1. create and set your environment variables for each of the variables in your template
   **example: widgets.conf.template variables**
     
     ```
@@ -85,7 +86,7 @@ Complete the following steps on your target machine to render a config file.
     export environment=dev
     export domain=widget-company.com
      ```
- 1. run stillson to render your configuration file
+1. run stillson to render your configuration file
  
     **example: render widgets.conf.template to stdout which can be redirected as needed**
  
