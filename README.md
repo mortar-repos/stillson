@@ -58,7 +58,7 @@ Stillson exists for the small plumbing projects where you just want to work with
 ## rendering a config ##
 Complete the following steps on your target machine to render a config file.
  
- 1. on the target machines install stillson
+1. on the target machines install stillson
   
      **example: install stillson system wide**
  
