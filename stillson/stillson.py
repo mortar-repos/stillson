@@ -46,8 +46,8 @@ def main():
     (options,args ) = parser.parse_args()
 
     if len(args) < 1:
-        error_msg = 'ERROR: You must specify a template file'
-        print error_msg
+        error_msg = 'ERROR: You must specify a template file\n'
+        sys.stderr.write(error_msg)
         sys.exit(1)
 
     template_path = args[0]
