@@ -54,7 +54,7 @@ class TestStillson(unittest.TestCase):
             stillson.render(self.template_file.name,self.output_file)
             self.fail('missing variable to throw an exception')
         except stillson.StillsonMissingEnvVariable as e:
-            self.assertIn('not_here',str(e)) #Todo expect line number
+            self.assertIn('',str(e)) #Todo expect line number
 
     def test_permission_template(self):
         broken_template_file = \

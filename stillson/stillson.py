@@ -24,12 +24,12 @@ class StillsonException(Exception):
     pass
 
 class StillsonMissingEnvVariable(StillsonException):
-    pass
+    sys.stderr.write("Configuration Expansion Error\n\n") 
 
 def list_available_env_keys():
-    print "Available configuration variables:\n"
+    sys.stderr.write("Available configuration variables:\n")
     for key in os.environ.keys():
-        print "* %s"%key
+        sys.stderr.write("* %s\n"%key)
     
 
 def render(template_path,output_file):
@@ -37,12 +37,10 @@ def render(template_path,output_file):
     try:
         output_content = template.render(**os.environ)
     except NameError as template_error:
-        print "Configuration Expansion Error\n" 
         missing_variable = str(template_error).split("'")[1]
-        print "The configuration variable %s is not defined.\n"%missing_variable
+        sys.stderr.write("The configuration variable %s is not defined.\n\n"%missing_variable)
         list_available_env_keys()
-        sys.exit(1)
-        #raise StillsonMissingEnvVariable()
+        raise StillsonMissingEnvVariable()
     output_file.write(output_content)
     output_file.flush()
 
@@ -67,10 +65,15 @@ def main():
     else:
         output_file = sys.stdout
 
-    render(template_path,output_file)
+    try:
+        render(template_path,output_file)
+        return 0
+    except Exception, err:
+        return 1
+      
     if options.output:
         output_file.close()
 
 
 if __name__ == '__main__':
-    main()
+    sys.exit(main())
