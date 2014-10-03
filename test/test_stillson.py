@@ -33,40 +33,45 @@ class TestStillson(unittest.TestCase):
         self.output_file.close()
 
     def test_happy_path(self):
+        debug_level='warn'
         os.environ['foo']='bar'
         self.assertEqual('bar',os.environ['foo'])
         self.template_file.write('[test]\nfoo:${foo}')
         self.template_file.flush()
-        stillson.render(self.template_file.name,self.output_file)
+        stillson.render(self.template_file.name,self.output_file,debug_level)
         self.output_file.seek(0)
         self.assertEqual('[test]\nfoo:bar',self.output_file.read())
 
     def test_missing_template(self):
         template_path = os.path.join(tempfile.mkdtemp(),'missing.txt')
-        self.assertRaises(IOError,stillson.render,template_path,self.output_file)
+        debug_level='warn'
+        self.assertRaises(IOError,stillson.render,template_path,self.output_file,debug_level)
 
     def test_missing_variable(self):
+        debug_level='warn'
         os.environ['foo']='bar'
         self.assertEqual('bar',os.environ['foo'])
         self.template_file.write('[test]\nfoo:${not_here}')
         self.template_file.flush()
         try:
-            stillson.render(self.template_file.name,self.output_file)
+            stillson.render(self.template_file.name,self.output_file,debug_level)
             self.fail('missing variable to throw an exception')
         except stillson.StillsonMissingEnvVariable as e:
             self.assertIn('',str(e)) #Todo expect line number
 
     def test_permission_template(self):
+        debug_level='warn'
         broken_template_file = \
             tempfile.NamedTemporaryFile(suffix='.template',delete=False)
         broken_template_file.write('stuff')
         broken_template_file.close()
         os.chmod(broken_template_file.name,0100)
         self.assertRaises(IOError,stillson.render,
-                          broken_template_file.name,self.output_file)
+                          broken_template_file.name,self.output_file,debug_level)
 
     def test_permission_output(self):
+        debug_level='warn'
         broken_output_file = \
             tempfile.NamedTemporaryFile(mode='r')
         self.assertRaises(IOError,stillson.render,
-                          self.template_file.name,broken_output_file)
+                          self.template_file.name,broken_output_file,debug_level)
