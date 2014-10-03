@@ -26,6 +26,7 @@ class StillsonException(Exception):
 class StillsonMissingEnvVariable(StillsonException):
     sys.stderr.write("Configuration Expansion Error\n\n") 
 
+#FIXME only list environment variables relevant to template
 def list_available_env_keys():
     sys.stderr.write("Available configuration variables:\n")
     for key in os.environ.keys():
@@ -39,19 +40,27 @@ def render(template_path,output_file):
     except NameError as template_error:
         missing_variable = str(template_error).split("'")[1]
         sys.stderr.write("The configuration variable %s is not defined.\n\n"%missing_variable)
-        list_available_env_keys()
         raise StillsonMissingEnvVariable()
     output_file.write(output_content)
     output_file.flush()
 
 
 def main():
+    global options
     parser = OptionParser(usage="usage: %prog template_path [options]",
                           version="%prog 1.0.0")
     parser.add_option('-o', '--output',
                       action='store',
                       dest='output',
-                      help='[DEFAULT: %default] the path for the output file that gets created')
+                      help='[DEFAULT: %default] the path for the output file that gets created'),
+    parser.add_option('-d', '--debug',
+                      type='choice',
+                      action='store',
+                      dest='debug_level',
+                      default='warn',
+                      choices=['warn'], #only support warn until debug FIXME is done
+                      help='[DEFAULT: %default] debug message level')
+
     (options,args ) = parser.parse_args()
 
     if len(args) < 1:
