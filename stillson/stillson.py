@@ -24,7 +24,7 @@ class StillsonException(Exception):
     pass
 
 class StillsonMissingEnvVariable(StillsonException):
-    sys.stderr.write("Configuration Expansion Error\n\n") 
+    pass
 
 #TODO only list environment variables relevant to template
 def list_available_env_keys():
@@ -39,6 +39,7 @@ def render(template_path,output_file,debug_level):
         output_content = template.render(**os.environ)
     except NameError as template_error:
         missing_variable = str(template_error).split("'")[1]
+        sys.stderr.write("Configuration Expansion Error\n\n") 
         sys.stderr.write("The configuration variable %s is not defined.\n\n"%missing_variable)
         if debug_level == "debug":
             list_available_env_keys()
